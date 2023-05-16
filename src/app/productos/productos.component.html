@@ -1,0 +1,68 @@
+<div class="container">
+ <div class="row">
+    <div class="col-md-8">
+        <h3>Ingresar Nuevo Producto</h3>
+        <form class="mt-5" [formGroup]="formulario" (ngSubmit)="save()">
+            <div class="mb-2">
+             <label for="nombre">Nombre</label> 
+             <input id="nombre" type="text" placeholder="Nombre" class="form-control" formControlName="nombre">  
+            </div>
+            <div class="mb-2">
+                <label for="precio">Material</label> 
+                <input id="precio" type="text" placeholder="Material"class="form-control" formControlName="material">  
+               </div>
+               <div class="mb-2">
+                <label for="precio">Tipo</label> 
+                <input id="precio" type="text" placeholder="Tipo"class="form-control" formControlName="tipo">  
+               </div>
+               <div class="mb-2">
+                <label for="precio">Precio</label> 
+                <input id="precio" type="number" placeholder="Precio"class="form-control" formControlName="precio">  
+               </div>
+               <div class="mb-2">
+                <label for="peso">Peso</label> 
+                <input id="peso" type="number" placeholder="Peso(Gr)"class="form-control" formControlName="peso">  
+               </div>
+<div class="text-end">
+    <button class="btn btn-primary">
+        Guardar
+    </button>
+</div>           
+
+        </form>    
+    </div>
+     
+</div>
+<h2>Listado de Productos</h2>
+<div class="col-md-6">
+    <table class="table table-hover mt-7">
+        <thead> 
+            <tr>
+                <th>Nombre</th>
+                <th>Material</th>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Peso</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of productos">
+                <td>{{producto.nombre}}</td>
+                <td>{{producto.material}}</td>
+                <td>{{producto.tipo}}</td>
+                <td>{{producto.precio}}</td>
+                <td>{{producto.peso}}</td>
+                <td>
+                   <div class="btn-group btn-group-sm">
+                    <button class="btn btn-danger btn-sm" (click)="update(producto)">Ver Detalle</button>
+                    <button class="btn btn-primary btn-sm" (click)="update(producto)">Editar</button>
+                    <button class="btn btn-danger btn-sm" (click)="delete(producto)">Eliminar</button>
+                   </div> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
