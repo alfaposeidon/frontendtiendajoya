@@ -18,9 +18,17 @@ export class ProductoService {
     return this.http.post('http://localhost:8080/api/productos',producto);
   }
 
-  update(id: number, producto:any){
-    return this.http.put('http://localhost:8080/api/productos'+ id,producto);
+  update(id: number, producto: any) {
+    const url = `${id}`;
+    return this.http.put(url, producto);
   }
+  
+  edit(id: number, producto: any) {
+    const url = `${id}`;
+    return this.http.put(url, producto);
+  }
+  
+
   delete(href:string){
     return this.http.delete(href); 
   }

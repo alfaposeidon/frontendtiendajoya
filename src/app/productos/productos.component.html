@@ -8,20 +8,26 @@
              <input id="nombre" type="text" placeholder="Nombre" class="form-control" formControlName="nombre">  
             </div>
             <div class="mb-2">
-                <label for="precio">Material</label> 
-                <input id="precio" type="text" placeholder="Material"class="form-control" formControlName="material">  
-               </div>
+                <label for="material">Clic para seleccionar el Material</label>
+                <select id="material" class="form-control" formControlName="material" >
+                    <option *ngFor="let option of materiales" [value]="option">{{option}}</option>
+                </select>
+            </div>
+            
+            <div class="mb-2">
+                <label for="tipo">Clic para seleccionar el Tipo</label>
+                <select id="tipo" class="form-control" formControlName="tipo">
+                    <option *ngFor="let option of tipos" [value]="option">{{option}}</option>
+                </select>
+            </div>
+       <!--    <div class="mb-2" *ngIf="editable">-->
+                <div class="mb-2" >
+                <label for="precio">Precio en Pesos ($)</label>
+                <input id="precio" type="number" placeholder="Precio" class="form-control" formControlName="precio">
+              </div>
                <div class="mb-2">
-                <label for="precio">Tipo</label> 
-                <input id="precio" type="text" placeholder="Tipo"class="form-control" formControlName="tipo">  
-               </div>
-               <div class="mb-2">
-                <label for="precio">Precio</label> 
-                <input id="precio" type="number" placeholder="Precio"class="form-control" formControlName="precio">  
-               </div>
-               <div class="mb-2">
-                <label for="peso">Peso</label> 
-                <input id="peso" type="number" placeholder="Peso(Gr)"class="form-control" formControlName="peso">  
+                <label for="peso">Peso en Gramos</label> 
+                <input id="peso" type="number" placeholder="Peso (Gr)"class="form-control" formControlName="peso">  
                </div>
 <div class="text-end">
     <button class="btn btn-primary">
@@ -37,17 +43,18 @@
 <div class="col-md-6">
     <table class="table table-hover mt-7">
         <thead> 
-            <tr>
+            <tr><th>URL API REST / Id</th>
                 <th>Nombre</th>
                 <th>Material</th>
                 <th>Tipo</th>
-                <th>Precio</th>
-                <th>Peso</th>
-                <th></th>
+                <th>Precio (COP)</th>
+                <th>Peso (Gr)</th>
+                <th>Acciones (CRUD)</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let producto of productos">
+                <td>{{producto._links.self.href}}</td>
                 <td>{{producto.nombre}}</td>
                 <td>{{producto.material}}</td>
                 <td>{{producto.tipo}}</td>
@@ -55,8 +62,10 @@
                 <td>{{producto.peso}}</td>
                 <td>
                    <div class="btn-group btn-group-sm">
-                    <button class="btn btn-danger btn-sm" (click)="update(producto)">Ver Detalle</button>
-                    <button class="btn btn-primary btn-sm" (click)="update(producto)">Editar</button>
+   <!--     <button class="btn btn-danger btn-sm" data-toggle="modal" [attr.data-target]="'#detalleModal' + producto.id" (click)="update(producto)"  >Ver Detalle</button>    
+           <button class="btn btn-danger btn-sm" data-toggle="modal" [attr.data-target]="'#detalleModal-' + producto.id">VER Detalle Modal</button>  -->  
+              <button class="btn btn-success" (click)="update(producto)">VER Detalle</button>
+                    <button class="btn btn-primary btn-sm" (click)="edit(producto)">Editar</button>
                     <button class="btn btn-danger btn-sm" (click)="delete(producto)">Eliminar</button>
                    </div> 
                 </td>
@@ -64,5 +73,42 @@
         </tbody>
     </table>
 </div>
-
 </div>
+ <!-- Modal para mostrar detalles del producto -->
+<!-- 
+1<div class="modal fade" [id]="'detalleModal' + productos.id" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+2<div class="modal fade" [id]="'detalleModal' + producto.id" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+3<div class="modal fade" [id]="producto ? 'detalleModal' + producto.id : ''" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">   
+4<div class="modal fade" [id]="'detalleModal' + producto.id" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+-->
+<!--  Modal para mostrar detalles del producto -->
+ <ng-template ngFor let-producto [ngForOf]="productos">
+
+    <ng-container *ngFor="let producto of productos">   
+    <div class="modal fade" [id]="'detalleModal-' + (producto?.id || '')" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="detalleModalLabel">Detalle del Producto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h6>Nombre: {{ producto.nombre }}</h6>
+            <h6>Material: {{ producto.material }}</h6>
+            <h6>Tipo: {{ producto.tipo }}</h6>
+            <h6>Precio: {{ producto.precio }}</h6>
+            <h6>Peso: {{ producto.peso }}</h6>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</ng-container>
+</ng-template>
+
+
